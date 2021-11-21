@@ -12,7 +12,8 @@ const errorHandler = (error, req, res, next) => {
 
   logger.log.error(new Error(error.message))
 
-  res.status(statusCode).json({
+  res.status(statusCode)
+  res.send({
     message: error.message,
     stack: process.env.NODE_ENV === 'production' ? '💩' : error.stack,
   })
