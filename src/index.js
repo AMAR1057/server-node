@@ -7,16 +7,19 @@ import config from './utils/config'
 import logger from './utils/logger'
 import errors from './utils/errors'
 
+import router from './routes'
+
 const app = express()
 
 app.use(logger.middleware)
 app.use(helmet())
-app.use(cors({ origin: config.origin }))
+app.use(
+  cors({
+    origin: config.origin,
+  }),
+)
 
-app.get('/', (req, res) => {
-  logger.log.success('Calling Root')
-  res.send({ msg: 'hello there!' })
-})
+app.use(router)
 
 app.use(errors.notFound)
 app.use(errors.errorHandler)
