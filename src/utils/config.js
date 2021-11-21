@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import dotenv from 'dotenv'
 import joi from 'joi'
 
@@ -8,12 +9,12 @@ dotenv.config()
 const envSchema = joi
   .object()
   .keys({
-    NODE_ENV: joi.string().valid('development', 'production').required(),
+    NODE_ENV: joi
+      .string()
+      .valid('development', 'production')
+      .default('development'),
     PORT: joi.number().positive().required(),
     ORIGIN: joi.string().uri().required(),
-    DATABASE_URL: joi.string().uri().required(),
-    API_PASS: joi.string().required(),
-    API_USER: joi.string().required(),
   })
   .unknown()
 
@@ -25,10 +26,4 @@ if (error) {
   logger.log.error(new Error(`Config validation error: ${error.message}`))
 }
 
-export default {
-  nodeEnv: env.NODE_ENV,
-  port: env.PORT,
-  origin: env.ORIGIN,
-  apiUser: env.API_USER,
-  apiPass: env.API_PASS,
-}
+export default { nodeEnv: env.NODE_ENV, port: env.PORT }
